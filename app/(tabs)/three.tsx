@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, Text, View } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, Text, View, TextInput } from 'react-native';
 
 export default function TabThreeScreen({ navigation }) {
   const dummyData = [
-    { 
-      "id": 1, 
-      "title": "Section 436 - Bail in Non-Bailable Offences", 
+    {
+      "id": 1,
+      "title": "Section 436 - Bail in Non-Bailable Offences",
       "data": {
         "summary": "Bail in non-bailable offences allows accused individuals to be released from custody pending trial, despite the severity of the alleged crime. This overview outlines the steps involved in seeking bail for such offences.",
         "steps": [
@@ -34,7 +34,7 @@ export default function TabThreeScreen({ navigation }) {
             "description": "Appeal: Denied bail applications can be appealed to higher courts for review."
           }
         ]
-      }, 
+      },
       "dummyEntries": [
         {
           "title": "Understanding Bail in Non-Bailable Offences",
@@ -42,9 +42,9 @@ export default function TabThreeScreen({ navigation }) {
         }
       ]
     },
-    { 
-      "id": 2, 
-      "title": "Section 437 - Bail in Special Cases", 
+    {
+      "id": 2,
+      "title": "Section 437 - Bail in Special Cases",
       "data": {
         "summary": "Bail in special cases involves unique circumstances that may warrant bail despite the nature of the offence. This section provides an overview of the specific conditions and considerations for granting bail in such cases.",
         "steps": [
@@ -2965,15 +2965,32 @@ export default function TabThreeScreen({ navigation }) {
           "content": "Bail with religious or cultural accommodations involves belief assessment, accommodation determination, and compliance monitoring. This section provides insights into the procedural aspects of bail with religious or cultural accommodations."
         }
       ]
-    }              
-  ]; 
-  // State variable to track which box is clicked
+    }
+  ];
   const [clickedBox, setClickedBox] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Filter the dummy data based on the search query
+  const filteredData = dummyData.filter(item =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      {dummyData.map(item => (
+      {/* Search bar */}
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search bails..."
+        onChangeText={text => setSearchQuery(text)}
+        value={searchQuery}
+        placeholderTextColor="#fff" // Set the placeholder text color to white
+      />
+
+
+      {/* Display filtered data */}
+      {filteredData.map(item => (
         item && (
+          // Inside the map function, where you render the TouchableOpacity for each item
           <TouchableOpacity
             key={item.id}
             style={[styles.box, clickedBox === item.id && styles.boxClicked]}
@@ -2990,6 +3007,7 @@ export default function TabThreeScreen({ navigation }) {
                         {`${step.step_number}. ${step.description}`}
                       </Text>
                     ))}
+                    {/* Add a new block to display procedures if they exist */}
                     {item.data.procedures && item.data.procedures.map(procedure => (
                       <Text key={procedure.step_number} style={styles.stepText}>
                         {`${procedure.step_number}. ${procedure.description}`}
@@ -3004,7 +3022,7 @@ export default function TabThreeScreen({ navigation }) {
       ))}
     </ScrollView>
   );
-};  
+};
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
@@ -3012,35 +3030,49 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 20,
     paddingBottom: 40,
+    backgroundColor: '#000', // Set the screen background to black
+  },
+  searchInput: {
+    height: 40,
+    borderColor: '#444', // Dark gray border
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    width: '90%',
+    backgroundColor: '#333', // Dark gray background
+    color: '#fff', // White text color for input
   },
   box: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1a1a1a', // Dark gray background
     padding: 20,
     marginBottom: 20,
     width: '90%',
     borderRadius: 10,
-    shadowColor: '#000',
+    shadowColor: '#fff', // White shadow for contrast
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 3,
+    borderWidth: 1,
+    borderColor: '#333', // Border to differentiate the boxes
   },
   boxClicked: {
-    borderColor: '#4CAF50',
+    borderColor: '#4CAF50', // Green border when clicked
     borderWidth: 2,
   },
   boxTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#333333',
+    color: '#fff', // White text color for the title
   },
   boxData: {
     fontSize: 16,
-    color: '#666666',
+    color: '#ccc', // Light gray text color for box data
     marginBottom: 10,
   },
   stepsContainer: {
@@ -3048,7 +3080,7 @@ const styles = StyleSheet.create({
   },
   stepText: {
     fontSize: 14,
-    color: '#888888',
+    color: '#888', // Lighter gray text color for step text
     marginBottom: 5,
   },
 });
