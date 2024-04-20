@@ -1,12 +1,26 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet } from 'react-native';
 
-export default function four() {
+import React from 'react';
+import { Text, View } from '@/components/Themed';
+import Chatbot from '../../src/chatbot';
+
+export default function TabThreeScreen() {
   return (
-    <View>
-      <Text>four</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}></Text>
+      <Chatbot />
     </View>
-  )
+  );
 }
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  title:{
+    
+  }
+});

@@ -1,9 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { Platform, StyleSheet, Text, View, Linking, TouchableOpacity } from 'react-native';
 import React from 'react';
 
 export default function ModalScreen() {
+  const handleGoogleFormClick = () => {
+    // Replace 'YOUR_GOOGLE_FORM_LINK' with the actual link to your Google Forms
+    const googleFormLink = 'https://docs.google.com/forms/d/e/1FAIpQLSeAdpizhOG26voWHAP0TQrpTokni9m7JBwW-bvLDB-3f8AULw/viewform?usp=sf_link';
+    Linking.openURL(googleFormLink);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>About Us</Text>
@@ -14,6 +19,10 @@ export default function ModalScreen() {
         This page is part of our endeavor to create an intuitive and informative platform within the application.
       </Text>
       <Text style={styles.guidanceTeacher}>Guidance Teacher: Dr. Prasad Lokulwar</Text>
+      {/* Google Forms link styled as a button */}
+      <TouchableOpacity style={styles.button} onPress={handleGoogleFormClick}>
+        <Text style={styles.buttonText}>Register as a Lawyer</Text>
+      </TouchableOpacity>
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>
@@ -53,7 +62,20 @@ const styles = StyleSheet.create({
   guidanceTeacher: {
     fontSize: 16,
     fontStyle: 'italic',
+    marginBottom: 10,
     color: '#888',
+    fontFamily: 'Roboto',
+  },
+  button: {
+    backgroundColor: '#007bff',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#fff',
     fontFamily: 'Roboto',
   },
 });
